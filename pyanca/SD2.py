@@ -1,16 +1,17 @@
-"""
 ##############################################################################
 
-pyANCA --- http://www.csb.pitt.edu/anca/
+# pyANCA --- http://www.csb.pitt.edu/anca/
 
-Copyright (c) 2017, University of Pittsburgh.
+# Copyright (c) 2017, University of Pittsburgh.
 
-Released under the BSD 3-Clause License
+# Released under the BSD 3-Clause License
 
-Author: Akash Parvatikar
+# Author: Akash Parvatikar
+# Contributors: Gabriel Vacaliuc, Arvind Ramanathan, Chakra Chennubhotla
 
-Contributors: Gabriel Vacaliuc, Arvind Ramanathan, Chakra Chennubhotla
+##############################################################################
 
+"""
 SD2 module - 
 
 This module contains only one function, SD2, which performs spatial decorrelation of 2nd order.
