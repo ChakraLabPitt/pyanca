@@ -3,11 +3,15 @@
 # pyANCA --- http://www.csb.pitt.edu/anca/
 
 # Copyright (c) 2017, University of Pittsburgh.
-
 # Released under the BSD 3-Clause License
 
 # Author: Akash Parvatikar
 # Contributors: Gabriel Vacaliuc, Arvind Ramanathan, Chakra Chennubhotla
+
+# Please cite your use of pyANCA in published work:
+# Parvatikar, A., Vacaliuc, G. S., Ramanathan, A., & Chennubhotla, S. C. (2018). 
+# ANCA: Anharmonic Conformational Analysis of Biomolecular Simulations. 
+# Biophysical journal, 114(9), 2040-2043.
 
 ##############################################################################
 
