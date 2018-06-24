@@ -2,7 +2,7 @@
 
 # pyANCA --- http://www.csb.pitt.edu/anca/
 
-# Copyright (c) 2017, University of Pittsburgh.
+# Copyright (c) 2017, University of Pittsburgh
 # Released under the BSD 3-Clause License
 
 # Author: Akash Parvatikar
