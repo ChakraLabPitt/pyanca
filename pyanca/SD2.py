@@ -1,9 +1,20 @@
-##############################################################################
+#########################################################################################
 
 # pyANCA --- http://www.csb.pitt.edu/anca/
 
 # Copyright (c) 2017, University of Pittsburgh
 # Released under the BSD 3-Clause License
+
+# Redistribution and use in source and binary forms, with or without modification, 
+# are permitted provided that the following conditions are met:
+# 1. Redistributions of source code must retain the above copyright notice, this 
+#    list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright notice, 
+#    this list of conditions and the following disclaimer in the documentation and/or 
+#    other materials provided with the distribution.
+# 3. Neither the name of [project] nor the names of its contributors may be used to 
+#    endorse or promote products derived from this software without specific prior 
+#    written permission.
 
 # Author: Akash Parvatikar
 # Contributors: Gabriel Vacaliuc, Arvind Ramanathan, Chakra Chennubhotla
@@ -13,7 +24,7 @@
 # ANCA: Anharmonic Conformational Analysis of Biomolecular Simulations. 
 # Biophysical journal, 114(9), 2040-2043.
 
-##############################################################################
+#########################################################################################
 
 """
 SD2 module - 
