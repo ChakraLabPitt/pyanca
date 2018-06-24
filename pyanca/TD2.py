@@ -17,7 +17,7 @@
 #    written permission.
 
 # Author: Akash Parvatikar
-# Contributors: Gabriel Vacaliuc, Arvind Ramanathan, Chakra Chennubhotla
+# Contributors: Gabriel S. Vacaliuc, Arvind Ramanathan, S. Chakra Chennubhotla
 
 # Please cite your use of pyANCA in published work:
 # Parvatikar, A., Vacaliuc, G. S., Ramanathan, A., & Chennubhotla, S. C. (2018). 
