@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+
 """
 TD4
 
 This module contains only one function, TD4, which does joint diagonalization of cumulant matrices of order 4 which depends on the time delays. It allows us to extract signals which are as independent as possible and which was not obtained while performing SD2, TD2.
 """
+
+from __future__ import print_function
 
 import numpy as np
 from sys import stdout 
@@ -10,8 +14,6 @@ from numpy import abs, append, arange, arctan2, argsort, array, concatenate, \
                   cos, diag, dot, eye, float32, float64, matrix, multiply, ndarray, newaxis, \
                   sign, sin, sqrt, zeros, ones
 from numpy.linalg import eig, pinv
-import pyemma.msm as msm
-import pyemma.coordinates as coor 
 import numpy
 import matplotlib.pyplot as plt
 import warnings
@@ -53,13 +55,13 @@ def TD4(Z, m=None,V=None, lag=None, verbose=True):
     assert m<=n,\
         "TD4 -> Do not ask more sources (%d) than sensors (%d )here!!!" % (m,n)
         
-    print "4th order Temporal Decorrelation -> Estimating cumulant matrices"
+    print("4th order Temporal Decorrelation -> Estimating cumulant matrices")
     
     # Reshaping of the data, hoping to speed up things a little bit...
     
     Z = Z.T
     #Z = Z - Z.mean()
-    dimsymm = ((m) * (( m )+ 1)) / 2	# Dim. of the space of real symm matrices
+    dimsymm = int(((m) * (( m )+ 1)) / 2)	# Dim. of the space of real symm matrices
     nbcm = dimsymm  # number of cumulant matrices
     CM = matrix(zeros([(m),(m)*nbcm], dtype=float64)) # Storage for cumulant matrices
     R = matrix(eye((m), dtype=float64))
@@ -130,12 +132,12 @@ def TD4(Z, m=None,V=None, lag=None, verbose=True):
     # Joint diagonalization proper
     
     if verbose:
-        print >> stdout, "TD4 -> Contrast optimization by joint diagonalization"
+        print("TD4 -> Contrast optimization by joint diagonalization", file=stdout)
     
     while encore:
         encore = False
         if verbose:
-            print >> stdout, "TD4 -> Sweep #%3d" % sweep ,
+            print("TD4 -> Sweep #%3d" % sweep, end=' ', file=stdout)
         sweep = sweep + 1
         upds  = 0
         Hkeep = H
@@ -171,10 +173,10 @@ def TD4(Z, m=None,V=None, lag=None, verbose=True):
                     Off = Off - Gain
                     
         if verbose:
-            print >> stdout, "completed in %d rotations" % upds
+            print("completed in %d rotations" % upds, file=stdout)
         updates = updates + upds
     if verbose:
-        print >> stdout, "TD4 -> Total of %d Givens rotations" % updates
+        print("TD4 -> Total of %d Givens rotations" % updates, file=stdout)
     
     # A separating matrix
     # ===================
@@ -186,7 +188,7 @@ def TD4(Z, m=None,V=None, lag=None, verbose=True):
     # according to the norm of the columns of A = pinv(W)
 
     if verbose:
-        print >> stdout, "TD4 -> Sorting the components"
+        print("TD4 -> Sorting the components", file=stdout)
     
     A = pinv(W)
     keys =  array(argsort(multiply(A,A).sum(axis=0)[0]))[0]
@@ -195,11 +197,11 @@ def TD4(Z, m=None,V=None, lag=None, verbose=True):
     
     
     if verbose:
-        print >> stdout, "TD4 -> Fixing the signs"
+        print("TD4 -> Fixing the signs", file=stdout)
     b	= W[:,0]
     signs = array(sign(sign(b)+0.1).T)[0] # just a trick to deal with sign=0
     W = diag(signs) * W
-    print W.shape
+    print(W.shape)
     return W
 
     """
@@ -242,5 +244,3 @@ def TD4(Z, m=None,V=None, lag=None, verbose=True):
       separated source signals.
       
       """
-
-

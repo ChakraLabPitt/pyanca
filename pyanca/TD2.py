@@ -1,36 +1,13 @@
-#########################################################################################
-
-# pyANCA --- http://www.csb.pitt.edu/anca/
-
-# Copyright (c) 2017, University of Pittsburgh
-# Released under the BSD 3-Clause License
-
-# Redistribution and use in source and binary forms, with or without modification, 
-# are permitted provided that the following conditions are met:
-# 1. Redistributions of source code must retain the above copyright notice, this 
-#    list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright notice, 
-#    this list of conditions and the following disclaimer in the documentation and/or 
-#    other materials provided with the distribution.
-# 3. Neither the name of [project] nor the names of its contributors may be used to 
-#    endorse or promote products derived from this software without specific prior 
-#    written permission.
-
-# Author: Akash Parvatikar
-# Contributors: Gabriel S. Vacaliuc, Arvind Ramanathan, S. Chakra Chennubhotla
-
-# Please cite your use of pyANCA in published work:
-# Parvatikar, A., Vacaliuc, G. S., Ramanathan, A., & Chennubhotla, S. C. (2018). 
-# ANCA: Anharmonic Conformational Analysis of Biomolecular Simulations. 
-# Biophysical journal, 114(9), 2040-2043.
-
-#########################################################################################
+# -*- coding: utf-8 -*-
 
 """
 TD2
 
 This module contains only one function, TD2, which performs temporal decorrelation of 2nd order.
 """
+
+
+from __future__ import print_function
 
 import numpy as np
 from sys import stdout
@@ -112,15 +89,15 @@ def TD2(Y, m=None, U=None, lag=None, verbose=True):
     Y1 = Y[0: T-lag:]
     Y2 = Y[lag:T:]
     if verbose:
-        print >> stdout, "2nd order Temporal Decorrelation -> Looking for %d sources" % m
-        print >> stdout, "2nd order Temporal Decorrelation -> Removing the mean value"
+        print("2nd order Temporal Decorrelation -> Looking for %d sources" % m, file=stdout)
+        print("2nd order Temporal Decorrelation -> Removing the mean value", file=stdout)
     
     #compute time-delayed covariance matrix
     Tic = (Y1.T * Y2)/float(T-lag)
     Tic = ((Tic + Tic.T))/2
     
     if verbose:
-        print >> stdout, "2nd order Temporal Decorrelation -> Whitening the data"
+        print("2nd order Temporal Decorrelation -> Whitening the data", file=stdout)
 
     [Dtd2,Utd2] = eig((Tic)) # An eigen basis for the sample covariance matrix
     ktd2 = abs(Dtd2).argsort()
@@ -143,5 +120,3 @@ def TD2(Y, m=None, U=None, lag=None, verbose=True):
     Z is now a matrix of spatially whitened and temporally uncorrelated components in the 2nd order
     """
     
-
-

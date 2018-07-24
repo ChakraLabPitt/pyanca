@@ -1,36 +1,13 @@
-#########################################################################################
-
-# pyANCA --- http://www.csb.pitt.edu/anca/
-
-# Copyright (c) 2017, University of Pittsburgh
-# Released under the BSD 3-Clause License
-
-# Redistribution and use in source and binary forms, with or without modification, 
-# are permitted provided that the following conditions are met:
-# 1. Redistributions of source code must retain the above copyright notice, this 
-#    list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright notice, 
-#    this list of conditions and the following disclaimer in the documentation and/or 
-#    other materials provided with the distribution.
-# 3. Neither the name of [project] nor the names of its contributors may be used to 
-#    endorse or promote products derived from this software without specific prior 
-#    written permission.
-
-# Author: Akash Parvatikar
-# Contributors: Gabriel S. Vacaliuc, Arvind Ramanathan, S. Chakra Chennubhotla
-
-# Please cite your use of pyANCA in published work:
-# Parvatikar, A., Vacaliuc, G. S., Ramanathan, A., & Chennubhotla, S. C. (2018). 
-# ANCA: Anharmonic Conformational Analysis of Biomolecular Simulations. 
-# Biophysical journal, 114(9), 2040-2043.
-
-#########################################################################################
+# -*- coding: utf-8 -*-
 
 """
-SD2 module - 
+SD2
 
 This module contains only one function, SD2, which performs spatial decorrelation of 2nd order.
 """
+
+
+from __future__ import print_function
 
 import numpy
 from sys import stdout 
@@ -55,7 +32,8 @@ def SD2(data,m= None,verbose=True):
         m -- dimensionality of the subspace we are interested in. Default value is None, in
         which case m=n.
         
-        verbose -- print information on progress. Default is True.    
+        verbose -- print information on progress. Default is True.
+    
     Returns:
     
         A 3n x m matrix U (NumPy matrix type), such that Y = U x data is a 2nd order
@@ -65,9 +43,10 @@ def SD2(data,m= None,verbose=True):
         Ds: has eigen values sorted by increasing variance
 		PCs: holds the index for m most significant principal components by decreasing variance
         S = Ds[PCs] 
+		
+		S – Eigen values of the ‘data’ covariance matrix 
         B - Eigen vectors of the 'data' covariance matrix. The eigen vectors are orthogonal.
-        
-    """
+        """
     
     # GB: we do some checking of the input arguments and copy data to new
     # variables to avoid messing with the original input. We also require double
@@ -90,8 +69,8 @@ def SD2(data,m= None,verbose=True):
         "SD2 -> Do not ask more sources (%d) than sensors (%d )here!!!" % (m,n)
 
     if verbose:
-        print >> stdout, "2nd order Spatial Decorrelation -> Looking for %d sources" % m
-        print >> stdout, "2nd order Spatial Decorrelation -> Removing the mean value"
+        print("2nd order Spatial Decorrelation -> Looking for %d sources" % m, file=stdout)
+        print("2nd order Spatial Decorrelation -> Removing the mean value", file=stdout)
     
     data = data.T
     
@@ -101,7 +80,7 @@ def SD2(data,m= None,verbose=True):
     # whitening & projection onto signal subspace
     # ===========================================
     if verbose:
-        print >> stdout, "2nd order Spatial Decorrelation -> Whitening the data"
+        print("2nd order Spatial Decorrelation -> Whitening the data", file=stdout)
     [D,U] = eigh((data * data.T) / float(T)) # An eigen basis for the sample covariance matrix
     k = D.argsort()
     Ds = D[k] # Sort by increasing variances

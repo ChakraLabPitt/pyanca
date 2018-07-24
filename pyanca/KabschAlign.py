@@ -1,31 +1,7 @@
-#########################################################################################
+# -*- coding: utf-8 -*-
 
-# pyANCA --- http://www.csb.pitt.edu/anca/
 
-# Copyright (c) 2017, University of Pittsburgh
-# Released under the BSD 3-Clause License
-
-# Redistribution and use in source and binary forms, with or without modification, 
-# are permitted provided that the following conditions are met:
-# 1. Redistributions of source code must retain the above copyright notice, this 
-#    list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright notice, 
-#    this list of conditions and the following disclaimer in the documentation and/or 
-#    other materials provided with the distribution.
-# 3. Neither the name of [project] nor the names of its contributors may be used to 
-#    endorse or promote products derived from this software without specific prior 
-#    written permission.
-
-# Author: Arvind Ramanathan
-# Contributor: S. Chakra Chennubhotla
-
-# Please cite your use of pyANCA in published work:
-# Parvatikar, A., Vacaliuc, G. S., Ramanathan, A., & Chennubhotla, S. C. (2018). 
-# ANCA: Anharmonic Conformational Analysis of Biomolecular Simulations. 
-# Biophysical journal, 114(9), 2040-2043.
-
-#########################################################################################
-
+from __future__ import print_function
 
 import math
 import numpy
@@ -36,7 +12,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
 class KabschAlign(object):
-	
+
 	def __init__(self):
 		"""
 		Constructor
@@ -49,13 +25,13 @@ class KabschAlign(object):
 		# This file has been edited to produce identical results as the original matlab implementation.
 		len1 = numpy.shape(fromXYZ);
 		len2 = numpy.shape(toXYZ);
-	
+
 		if not(len1[1] == len2[1]):
-			print 'KABSCH: unequal array sizes';
+			print('KABSCH: unequal array sizes');
 			return;
-		
+
 		m1 = numpy.mean(fromXYZ, 1).reshape((len1[0],1)); # print numpy.shape(m1);
-		m2 = numpy.mean(toXYZ, 1).reshape((len2[0],1)); 
+		m2 = numpy.mean(toXYZ, 1).reshape((len2[0],1));
 
 		tmp1 = numpy.tile(m1,len1[1]);
 		tmp2 = numpy.tile(m1,len2[1]);
@@ -70,16 +46,18 @@ class KabschAlign(object):
 		[u, s, wh] = numpy.linalg.svd(numpy.dot(t2,t1.T));
 		w = wh.T;
 
-		R = numpy.dot(numpy.dot(u,[[1, 0, 0],[0, 1, 0],[0, 0, numpy.linalg.det(numpy.dot(u,w.T))]]), w.T); 
-  		T = m2 - numpy.dot(R,m1);
+		R = numpy.dot(numpy.dot(u,[[1, 0, 0],[0, 1, 0],[0, 0, numpy.linalg.det(numpy.dot(u,w.T))]]), w.T);
 
+
+		T = m2 - numpy.dot(R,m1);
 		tmp3 = numpy.reshape(numpy.tile(T,(len2[1])),(len1[0],len1[1]));
-  		err = toXYZ - numpy.dot(R,fromXYZ) - tmp3; 
-  			
-		#eRMSD = math.sqrt(sum(sum((numpy.dot(err,err.T))))/len2[1]); 
-		eRMSD = math.sqrt(sum(sum(err**2))/len2[1]); 
+
+		err = toXYZ - numpy.dot(R,fromXYZ) - tmp3;
+
+		#eRMSD = math.sqrt(sum(sum((numpy.dot(err,err.T))))/len2[1]);
+		eRMSD = math.sqrt(sum(sum(err**2))/len2[1]);
 		return (R, T, eRMSD, err.T);
-	
+
 	def wKabschDriver(self, toXYZ, fromXYZ, sMed=1.5, maxIter=20):
 		scaleMed = sMed;
 		weights = numpy.ones( numpy.shape(toXYZ)[1] ); #print 'weights: ', numpy.shape(weights);
@@ -98,52 +76,55 @@ class KabschAlign(object):
 			sigc.append(sig);
 			weights = (sig**2)/((sig**2 + nDeltaR**2)**2); #print numpy.shape(weights);
 		return ( R, T, eRMSD, err);
-			
+
 	def wKabsch(self, toXYZ, fromXYZ, weights):
 		len1 = numpy.shape(fromXYZ); #print 'len1: ', len1;
 		len2 = numpy.shape(toXYZ); #print 'len2: ', len2;
-		
+
 		if not(len1[1] == len2[1]):
-			print 'wKABSCH: unequal array sizes';
+			print('wKABSCH: unequal array sizes');
 			return;
-		
+
 		#if not (numpy.shape(weights)[0]==1):
 		#	print 'am here:'
 		#	weights = weights.T;
-			
+
 		dw = numpy.tile(weights, (3,1)); #print 'dw shape:', numpy.shape(dw);
 		wFromXYZ = dw * fromXYZ; #print 'wFromXYZ shape: ', numpy.shape(wFromXYZ);
 		wToXYZ = dw * toXYZ; # print 'wToXYZ shape: ', numpy.shape(wToXYZ);
-		
+
 		m1 = numpy.sum(wFromXYZ, 1) / numpy.sum(weights); #print numpy.shape(m1);
 		m2 = numpy.sum(wToXYZ, 1) / numpy.sum(weights); #print numpy.shape(m2);
-		
+
 		tmp1 = numpy.reshape(numpy.tile(m1,(len1[1])), (len1[0],len1[1]));
-		tmp2 = numpy.reshape(numpy.tile(m2,(len2[1])), (len2[0],len2[1])); 
+		tmp2 = numpy.reshape(numpy.tile(m2,(len2[1])), (len2[0],len2[1]));
 		t1 = numpy.reshape(fromXYZ - tmp1, (len1[0], len1[1])); #print 't1 shape: ', numpy.shape(t1);
 		t2 = numpy.reshape(toXYZ - tmp2, (len2[0],len2[1]));
-		
+
 		aa = numpy.zeros((3,3));
 		for i in range(0, numpy.shape(t1)[1]):
 			tmp = numpy.outer(t2[:,i],t1[:,i]); #print 'tmp shape: ', numpy.shape(tmp);
 			aa = aa + numpy.multiply(weights[i], tmp);
 		aa = aa/numpy.sum(weights);
-		
+
 		[u,s,wh] = numpy.linalg.svd(aa);
 		w = wh.T;
 
-		R = numpy.dot(numpy.dot(u,[[1, 0, 0],[0, 1, 0],[0, 0, numpy.linalg.det(numpy.dot(u,w.T))]]), w.T); 
-  		T = m2 - numpy.dot(R,m1); 
-		#print numpy.shape(m2), numpy.shape(R), numpy.shape(m1); 
+		R = numpy.dot(numpy.dot(u,[[1, 0, 0],[0, 1, 0],[0, 0, numpy.linalg.det(numpy.dot(u,w.T))]]), w.T);
+
+
+		T = m2 - numpy.dot(R,m1);
+		#print numpy.shape(m2), numpy.shape(R), numpy.shape(m1);
 
 		tmp3 = numpy.reshape(numpy.tile(T,(len2[1])),(len1[0],len1[1]));
-  		err = toXYZ - numpy.dot(R,fromXYZ) - tmp3; 
-  			
-		#eRMSD = math.sqrt(sum(sum((numpy.dot(err,err.T))))/len2[1]); 
-		eRMSD = math.sqrt(sum(sum(err**2))/len2[1]); 
+
+		err = toXYZ - numpy.dot(R,fromXYZ) - tmp3;
+
+		#eRMSD = math.sqrt(sum(sum((numpy.dot(err,err.T))))/len2[1]);
+		eRMSD = math.sqrt(sum(sum(err**2))/len2[1]);
 		return (R, T, eRMSD, err.T);
-		
-		
+
+
 
 if __name__ == '__main__':
 	u = MDAnalysis.Universe('../data/ubq_1111.pdb', '../data/UBQ_500ns.dcd', permissive=False);
@@ -163,10 +144,10 @@ if __name__ == '__main__':
 		rmsRef.append(float(l[1]));
 	f.close();
 
-	print numpy.corrcoef(rmsRef, RMS);
+	print((numpy.corrcoef(rmsRef, RMS)));
 
 	fig = plt.figure();
 	ax = fig.add_subplot(111);
 	ax.plot(frames, RMS, 'r-', frames, rmsRef, 'b--', linestyle='solid', linewidth=2.0);
 
-	plt.show();	
+	plt.show();
