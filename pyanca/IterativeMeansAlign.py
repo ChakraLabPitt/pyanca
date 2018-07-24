@@ -6,7 +6,7 @@ import MDAnalysis
 import numpy
 import numpy.linalg
 import math
-from KabschAlign import *
+from pyanca import KabschAlign 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
@@ -38,7 +38,7 @@ class IterativeMeansAlign(object):
 		log.debug('Shape of array in IterativeMeans: {0}'.format(numpy.shape(coords)));
 		
 		avgCoords = [];			# track average coordinates
-		kalign = KabschAlign();		# initialize for use
+		kalign = KabschAlign.KabschAlign();		# initialize for use
 
 		ok = 0;				# tracking convergence of iterative means
 		itr = 1; 			# iteration number
