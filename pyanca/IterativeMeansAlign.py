@@ -1,31 +1,6 @@
-#########################################################################################
+# -*- coding: utf-8 -*-
 
-# pyANCA --- http://www.csb.pitt.edu/anca/
-
-# Copyright (c) 2017, University of Pittsburgh
-# Released under the BSD 3-Clause License
-
-# Redistribution and use in source and binary forms, with or without modification, 
-# are permitted provided that the following conditions are met:
-# 1. Redistributions of source code must retain the above copyright notice, this 
-#    list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright notice, 
-#    this list of conditions and the following disclaimer in the documentation and/or 
-#    other materials provided with the distribution.
-# 3. Neither the name of [project] nor the names of its contributors may be used to 
-#    endorse or promote products derived from this software without specific prior 
-#    written permission.
-
-# Author: Arvind Ramanathan
-# Contributor: S. Chakra Chennubhotla
-
-# Please cite your use of pyANCA in published work:
-# Parvatikar, A., Vacaliuc, G. S., Ramanathan, A., & Chennubhotla, S. C. (2018). 
-# ANCA: Anharmonic Conformational Analysis of Biomolecular Simulations. 
-# Biophysical journal, 114(9), 2040-2043.
-
-#########################################################################################
-
+from __future__ import print_function
 
 import MDAnalysis
 import numpy
@@ -104,17 +79,16 @@ if __name__=='__main__':
 		f = ca.coordinates();
 		cacoords.append(f.T);
 		frames.append(ts.frame);
-	print numpy.shape(cacoords);
+	print((numpy.shape(cacoords)));
 	
 	iterAlign = IterativeMeansAlign();
 	[itr, avgCoords, eRMSD, newCoords] = iterAlign.iterativeMeans(cacoords, 0.001, 4, True); 
 	
-	print numpy.shape(eRMSD);
+	print((numpy.shape(eRMSD)));
 	newCoords = numpy.array(newCoords);
-	newCoords = numpy.reshape(newCoords, (10000,3*69)); print numpy.shape(newCoords); 
+	newCoords = numpy.reshape(newCoords, (10000,3*69)); print((numpy.shape(newCoords))); 
 	fig = plt.figure();
 	ax = fig.add_subplot(111);
 	ax.plot(frames, eRMSD[1], linestyle='solid', linewidth=2.0);
 	plt.show();
-
 
